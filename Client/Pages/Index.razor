@@ -1,9 +1,14 @@
 ﻿@page "/"
-@using _3DPC_Server.Shared
+@using Organizer.Shared
 @inject HttpClient Http
 
-
 <PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
 
 <h1>Printer Status</h1>
 
@@ -35,6 +40,7 @@
 
 @code {
     private Printer[]? printer_list;
+    
     protected override async Task OnInitializedAsync()
     {
         printer_list = await Http.GetFromJsonAsync<Printer[]>("Printer");

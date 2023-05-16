@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using _3DPC_Server.Shared;
+using Organizer.Shared;
 
-namespace BlazorWebAssemblySignalRApp.Server.Controllers;
+namespace Organizer.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -17,11 +17,12 @@ public class PrinterController : ControllerBase
     [HttpGet]
     public IEnumerable<Printer> Get()
     {
-        return Enumerable.Range(0, 5).Select(index => new Printer
+        return Enumerable.Range(1, 5).Select(index => new Printer
         {
             Name = $"Printer {index}",
             Print = $"Print {index}",
-            Status = $"Status {index}"
-        });
+            Status = PrinterState.Idle,
+        })
+        .ToArray();
     }
 }

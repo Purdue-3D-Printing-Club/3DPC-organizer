@@ -1,9 +1,16 @@
-namespace _3DPC_Server.Shared
+namespace Organizer.Shared
 {
+    public enum PrinterState
+        {
+            Idle,
+            Printing,
+            Error,
+            Offline
+        }
     public class Printer
     {
         public string Name { get; set; }
         public string Print { get; set; }
-        public string Status { get; set; }
+        public PrinterState Status { get; set; }
     }
 }
