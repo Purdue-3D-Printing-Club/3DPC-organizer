@@ -25,3 +25,5 @@ docker build -t "${container_name}" .
 # Start the Docker container
 docker run -it --rm -p 8080:80 "${container_name}"
 
+# Manually run a debug session
+# dotnet run --project ./Server/ -c Debug -v diag
