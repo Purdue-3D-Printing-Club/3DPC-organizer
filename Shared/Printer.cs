@@ -9,8 +9,9 @@ namespace Organizer.Shared
         }
     public class Printer
     {
-        public string Name { get; set; }
-        public string Print { get; set; }
-        public PrinterState Status { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public PrinterState status { get; set; }
+        public string? assignedJobId { get; set; }
     }
 }
