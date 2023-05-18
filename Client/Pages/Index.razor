@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using Organizer.Shared
+@using Organizer.Shared.Models
 @inject HttpClient Http
 
 <PageTitle>Dashboard</PageTitle>
@@ -29,13 +29,42 @@
         </tbody>
     </table>
 }
+@if(job_list is not null) {
+    <h1>Job Status</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job</th>
+                <th>Printer</th>
+                <th>File Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in job_list)
+            {
+                <tr>
+                    <th>@job.id</th>
+                    <th>@job.userSubmittingId</th>
+                    <th>@job.supervisorId</th>
+                    <th>@job.status</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 
 @code {
     private Printer[]? printer_list;
+    private Job[]? job_list;
+
     
     protected override async Task OnInitializedAsync()
     {
         printer_list = await Http.GetFromJsonAsync<Printer[]>("api/Printer");
+        Job job1 = await Http.GetFromJsonAsync<Job>("api/Job/job1");
+        Job job2 = await Http.GetFromJsonAsync<Job>("api/Job/job2");
+        job_list = new Job[] { job1, job2 };
     }
 }
