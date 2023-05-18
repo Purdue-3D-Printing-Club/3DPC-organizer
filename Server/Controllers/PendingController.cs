@@ -1,0 +1,15 @@
+using Microsoft.AspNetCore.Mvc;
+using Organizer.Shared;
+
+namespace Organizer.Server.Controllers;
+
+[ApiController]
+[Route("api/pending")]
+public class PendingController : ControllerBase
+{
+    private readonly ILogger<PendingController> _logger;
+    public PendingController(ILogger<PendingController> logger)
+    {
+        _logger = logger;
+    }
+}

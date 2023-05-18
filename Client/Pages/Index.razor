@@ -36,6 +36,6 @@
     
     protected override async Task OnInitializedAsync()
     {
-        printer_list = await Http.GetFromJsonAsync<Printer[]>("Printer");
+        printer_list = await Http.GetFromJsonAsync<Printer[]>("api/Printer");
     }
 }

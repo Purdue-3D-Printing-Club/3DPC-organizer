@@ -4,7 +4,7 @@ using Organizer.Shared;
 namespace Organizer.Server.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/printer")]
 public class PrinterController : ControllerBase
 {
     private readonly ILogger<PrinterController> _logger;
