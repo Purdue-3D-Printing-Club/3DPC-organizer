@@ -6,6 +6,9 @@ if ! docker info >/dev/null 2>&1; then
     exit 1
 fi
 
+# Remove previous image (if it exists)
+docker rmi -f organizer-tmp
+
 # Check if both solution name and version number are provided as command line arguments
 if [ $# -ne 2 ]; then
     # Set default container name
