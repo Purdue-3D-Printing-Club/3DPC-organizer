@@ -1,4 +1,4 @@
-namespace Organizer.Shared
+namespace Organizer.Shared.Models
 {
     public class User
     {

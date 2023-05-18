@@ -1,4 +1,4 @@
-namespace Organizer.Shared
+namespace Organizer.Shared.Models
 {
     public enum JobState
     {
@@ -15,7 +15,7 @@ namespace Organizer.Shared
         public string supervisorId { get; set; }
         public JobState status { get; set; }
         public string[] files { get; set; }
-        public string notes { get; set; }
+        public string? notes { get; set; }
         public float estimatedFilament { get; set; }
     }
 }

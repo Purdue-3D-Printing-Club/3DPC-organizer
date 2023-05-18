@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Organizer.Shared;
+using Organizer.Shared.Models;
 
 namespace Organizer.Server.Controllers;
 
