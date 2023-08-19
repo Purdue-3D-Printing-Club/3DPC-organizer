@@ -1,27 +1,41 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Organizer</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <div class="ps-3 navbar navbar-light">
+        <div class="container-fluid">
+            <img src="img/3dpc_logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            <a class="navbar-brand" href="">Purdue 3D Printing Club</a>
+        </div>
     </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="home" Match="NavLinkMatch.All">
+                <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="Vector" d="M21.7678 1.2899C20.7915 0.313603 19.2086 0.313603 18.2323 1.2899L0.732226 18.7899C-0.244075 19.7663 -0.244075 21.3492 0.732226 22.3255C1.70855 23.3017 3.29145 23.3017 4.26778 22.3255L5.00001 21.5932V38.0577C5.00001 39.4385 6.11931 40.5577 7.50001 40.5577H12.5C13.8807 40.5577 15 39.4385 15 38.0577V33.0577C15 31.677 16.1193 30.5577 17.5 30.5577H22.5C23.8808 30.5577 25 31.677 25 33.0577V38.0577C25 39.4385 26.1193 40.5577 27.5 40.5577H32.5C33.8808 40.5577 35.0001 39.4385 35.0001 38.0577V21.5932L35.7323 22.3255C36.7086 23.3017 38.2916 23.3017 39.2678 22.3255C40.2441 21.3492 40.2441 19.7663 39.2678 18.7899L21.7678 1.2899Z" fill="black"/>
+                </svg>
+                <span>Home</span>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="printers">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M17.2262 0H32.8065V9.27385H37C37.5523 9.27385 38 9.72157 38 10.2739V17.5477C38 18.0999 37.5523 18.5477 37 18.5477H33.5834L28.4432 27.8215H21.5897L16.4495 18.5477H13.0328C12.4805 18.5477 12.0328 18.0999 12.0328 17.5477V10.2739C12.0328 9.72157 12.4805 9.27385 13.0328 9.27385H17.2262V0ZM2 35.5C2 34.1193 3.11929 33 4.5 33H20C20 31.3431 21.3431 30 23 30H26C27.6569 30 29 31.3431 29 33V35C29 36.6569 27.6569 38 26 38H25.5H23H4.5C3.11929 38 2 36.8807 2 35.5Z" fill="black"/>
+                </svg>
+                <span>Printers</span>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="submissions">
+                <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M6 6V14.5H44V6H6ZM6 44V21.5H29.2V23.8333H27C26.4477 23.8333 26 24.2811 26 24.8333V27.1667C26 27.719 26.4477 28.1667 27 28.1667H28.7214L31.8885 32.5H36.1115L39.2786 28.1667H41C41.5523 28.1667 42 27.719 42 27.1667V24.8333C42 24.2811 41.5523 23.8333 41 23.8333H38.8V21.5H44V44H29V42H40C41.1046 42 42 41.1046 42 40V38C42 36.8954 41.1046 36 40 36H10C8.89543 36 8 36.8954 8 38V40C8 41.1046 8.89543 42 10 42H22V44H6ZM5 0C2.23858 0 0 2.23858 0 5V45C0 47.7614 2.23858 50 5 50H45C47.7614 50 50 47.7614 50 45V5C50 2.23858 47.7614 0 45 0H5Z" fill="black"/>
+                </svg>
+                <span>Submissions</span>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="settings">
+                <svg width="42" height="40" viewBox="0 0 42 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M7.65401 2.33841C9.03472 2.33841 10.154 3.4577 10.154 4.83841V16.4829C10.154 17.8636 9.03472 18.9829 7.65401 18.9829C6.2733 18.9829 5.15401 17.8636 5.15401 16.4829V4.83841C5.15401 3.4577 6.2733 2.33841 7.65401 2.33841ZM10.154 25.6369H12.6445C14.0252 25.6369 15.1445 24.5176 15.1445 23.1369C15.1445 21.7562 14.0252 20.6369 12.6445 20.6369H7.65401H2.66351C1.2828 20.6369 0.163513 21.7562 0.163513 23.1369C0.163513 24.5176 1.2828 25.6369 2.66351 25.6369H5.15401V34.7814C5.15401 36.1621 6.2733 37.2814 7.65401 37.2814C9.03472 37.2814 10.154 36.1621 10.154 34.7814V25.6369ZM23.462 19.8099C23.462 18.4292 22.3427 17.3099 20.962 17.3099C19.5813 17.3099 18.462 18.4292 18.462 19.8099V34.7814C18.462 36.1621 19.5813 37.2814 20.962 37.2814C22.3427 37.2814 23.462 36.1621 23.462 34.7814V19.8099ZM20.962 2.33841C22.3427 2.33841 23.462 3.4577 23.462 4.83841V10.6559H25.9525C27.3332 10.6559 28.4525 11.7752 28.4525 13.1559C28.4525 14.5366 27.3332 15.6559 25.9525 15.6559H20.962H15.9715C14.5908 15.6559 13.4715 14.5366 13.4715 13.1559C13.4715 11.7752 14.5908 10.6559 15.9715 10.6559H18.462V4.83841C18.462 3.4577 19.5813 2.33841 20.962 2.33841ZM34.27 23.9639H39.2605C40.6412 23.9639 41.7605 25.0832 41.7605 26.4639C41.7605 27.8446 40.6412 28.9639 39.2605 28.9639H36.77V34.7814C36.77 36.1621 35.6507 37.2814 34.27 37.2814C32.8893 37.2814 31.77 36.1621 31.77 34.7814V28.9639H29.2795C27.8988 28.9639 26.7795 27.8446 26.7795 26.4639C26.7795 25.0832 27.8988 23.9639 29.2795 23.9639H34.27ZM34.27 2.33841C35.6507 2.33841 36.77 3.4577 36.77 4.83841V19.8099C36.77 21.1906 35.6507 22.3099 34.27 22.3099C32.8893 22.3099 31.77 21.1906 31.77 19.8099V4.83841C31.77 3.4577 32.8893 2.33841 34.27 2.33841Z" fill="black"/>
+                </svg>
+                <span>Settings</span>
             </NavLink>
         </div>
     </nav>
