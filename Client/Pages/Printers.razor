@@ -1,0 +1,31 @@
+﻿@page "/printers"
+@using Organizer.Shared.Models
+@inject HttpClient Http
+
+<PageTitle>Printer Dashboard</PageTitle>
+<h1>Printers</h1>
+
+<div class="page-content">
+    @if(printer_list is null) {
+        <p>Loading...</p>
+    } else {
+        @foreach (var printer in printer_list)
+        {
+            <div class="printer">
+                <span>@printer.id</span>
+                <span>@printer.name</span>
+                <span>@printer.status</span>
+            </div>
+        }
+    }
+</div>
+
+
+@code {
+    private Printer[]? printer_list;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        printer_list = await Http.GetFromJsonAsync<Printer[]>("api/Printer");
+    }
+}
