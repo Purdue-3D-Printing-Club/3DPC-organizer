@@ -3,68 +3,19 @@
 @inject HttpClient Http
 
 <PageTitle>Dashboard</PageTitle>
-<h1>Printer Status</h1>
+<h1 class="page-header">Printer Status</h1>
 
-@if(printer_list is null) {
-    <p>Loading...</p>
-} else {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Printer</th>
-                <th>Printer Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var printer in printer_list)
-            {
-                <tr>
-                    @* TODO: insert printer image here, as well as any other information we want to include with it *@
-                    <td>@printer.id</td>
-                    <td>@printer.name</td>
-                    <td>@printer.status</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-@if(job_list is not null) {
-    <h1>Job Status</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Job</th>
-                <th>Printer</th>
-                <th>File Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var job in job_list)
-            {
-                <tr>
-                    <th>@job.id</th>
-                    <th>@job.userSubmittingId</th>
-                    <th>@job.supervisorId</th>
-                    <th>@job.status</th>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<div class="page-content">
+    <h3>Open Printers: @available</h3>
+</div>
 
 
 @code {
-    private Printer[]? printer_list;
-    private Job[]? job_list;
+    private int available = 0;
 
-    
     protected override async Task OnInitializedAsync()
     {
-        printer_list = await Http.GetFromJsonAsync<Printer[]>("api/Printer");
-        Job job1 = await Http.GetFromJsonAsync<Job>("api/Job/job1");
-        Job job2 = await Http.GetFromJsonAsync<Job>("api/Job/job2");
-        job_list = new Job[] { job1, job2 };
+        var printers = await Http.GetFromJsonAsync<List<Printer>>("api/printer");
+        available = printers.Count;
     }
 }
