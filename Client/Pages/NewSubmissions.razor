@@ -2,7 +2,10 @@
 @using Organizer.Shared.Models
 @inject HttpClient Http
 
-<h1 class="page-header">New Submissions</h1>
+<div class="page-header">
+    <h1>Pending Submissions</h1>
+    <button>New Submission</button>
+</div>
 
 <div class="page-content">
     @if(submissions is null) {
@@ -11,7 +14,6 @@
         @foreach (var submission in submissions)
         {
             <div>
-                <span>@submission.status</span>
                 <span>@submission.notes</span>
                 <span>@submission.id</span>
             </div>
@@ -22,9 +24,4 @@
 
 @code {
     private List<Job> submissions;
-
-    protected override async Task OnInitializedAsync()
-    {
-        submissions = await Http.GetFromJsonAsync<List<Job>>("api/submissions");
-    }
 }
