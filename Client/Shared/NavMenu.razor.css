@@ -51,6 +51,10 @@
     color: white;
 }
 
+.nav-item ::deep a.active path, .nav-item ::deep a:hover path {
+    fill: white;
+}
+
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
