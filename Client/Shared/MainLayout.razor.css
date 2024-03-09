@@ -32,3 +32,9 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+
+@media (max-width: 1180px) {
+    .sidebar {
+        width: calc(40px + 2rem);
+    }
+}

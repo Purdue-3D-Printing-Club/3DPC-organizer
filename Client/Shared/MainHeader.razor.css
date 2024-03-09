@@ -1,3 +1,7 @@
+.main-header {
+    padding-left: 1rem;
+}
+
 .main-logo {
     display: flex;
     flex-direction: row;
@@ -6,7 +10,7 @@
     text-decoration: unset;
 }
 
-.title-text {
+.main-logo > span {
     font-size: 1.75rem;
     color: black;
     margin-left: 1rem;
