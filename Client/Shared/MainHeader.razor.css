@@ -5,3 +5,9 @@
     align-items: center;
     text-decoration: unset;
 }
+
+.title-text {
+    font-size: 1.75rem;
+    color: black;
+    margin-left: 1rem;
+}
