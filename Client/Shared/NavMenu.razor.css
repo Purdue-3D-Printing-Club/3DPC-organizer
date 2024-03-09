@@ -1,10 +1,4 @@
-.main-logo {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-decoration: unset;
-}
+
 
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
@@ -41,7 +35,7 @@
     display: flex;
     align-items: center;
     line-height: 3rem;
-    background-image: linear-gradient(90deg, #408EE9 0%, #85E848 100%);
+    transition: none;
 }
 
 .nav-item ::deep span {
@@ -50,6 +44,16 @@
 
 .nav-item ::deep a.active, .nav-item ::deep a:hover {
     color: white;
+}
+
+.nav-item ::deep a.active path, .nav-item ::deep a:hover path {
+    fill: white;
+}
+
+@media (max-width: 1180px) {
+    .nav-item ::deep span {
+        display: none;
+    }
 }
 
 @media (min-width: 641px) {

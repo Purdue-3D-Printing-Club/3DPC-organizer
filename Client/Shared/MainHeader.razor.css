@@ -1,0 +1,17 @@
+.main-header {
+    padding-left: 1rem;
+}
+
+.main-logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-decoration: unset;
+}
+
+.main-logo > span {
+    font-size: 1.75rem;
+    color: black;
+    margin-left: 1rem;
+}
