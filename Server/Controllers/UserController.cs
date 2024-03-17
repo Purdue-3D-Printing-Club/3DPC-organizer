@@ -4,7 +4,7 @@ using Organizer.Shared.Models;
 namespace Organizer.Server.Controllers;
 
 [ApiController]
-[Route("api/user")]
+[Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;

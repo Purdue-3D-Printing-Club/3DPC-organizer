@@ -4,7 +4,7 @@ using Organizer.Shared.Models;
 namespace Organizer.Server.Controllers;
 
 [ApiController]
-[Route("api/job")]
+[Route("api/[controller]")]
 public class JobController : ControllerBase
 {
     private static Job[] temp_jobs = { // temporary until I get a database setup
