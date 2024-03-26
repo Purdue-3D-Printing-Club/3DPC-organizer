@@ -7,26 +7,7 @@ namespace Organizer.Server.Controllers;
 [Route("api/[controller]")]
 public class JobController : ControllerBase
 {
-    private static Job[] temp_jobs = { // temporary until I get a database setup
-        new Job {
-            id = "job1",
-            userSubmittingId = "usr1",
-            supervisorId = "sup1",
-            status = JobState.Pending,
-            files = new string[] { "filepath1" },
-            notes = "notes",
-            estimatedFilament = 1.2f
-        },
-        new Job {
-            id = "job2",
-            userSubmittingId = "usr2",
-            supervisorId = "sup2",
-            status = JobState.InProgress,
-            files = new string[] { "filepath1", "filepath2" },
-            notes = "notes",
-            estimatedFilament = 123.45f
-        },
-    };
+    private static Job[] temp_jobs = {};
     private readonly ILogger<JobController> _logger;
     public JobController(ILogger<JobController> logger)
     {
@@ -48,7 +29,7 @@ public class JobController : ControllerBase
         }
         for (int i = 0; i < temp_jobs.Length; i++)
         {
-            if (temp_jobs[i].id == id)
+            if (temp_jobs[i].Id.ToString() == id)
             {
                 return temp_jobs[i];
             }

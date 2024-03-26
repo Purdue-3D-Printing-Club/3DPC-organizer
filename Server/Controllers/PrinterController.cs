@@ -19,9 +19,9 @@ public class PrinterController : ControllerBase
     {
         return Enumerable.Range(1, 5).Select(index => new Printer
         {
-            id = index.ToString(),
-            name = $"Printer {index}",
-            status = PrinterState.Idle,
+            Id = new Guid(),
+            Name = $"Printer {index}",
+            Status = PrinterState.Idle,
         })
         .ToArray();
     }

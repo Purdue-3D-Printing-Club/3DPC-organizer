@@ -10,12 +10,12 @@ namespace Organizer.Shared.Models
     }
     public class Job
     {
-        public string id { get; set; }
-        public string userSubmittingId { get; set; }
-        public string supervisorId { get; set; }
-        public JobState status { get; set; }
-        public string[] files { get; set; }
-        public string? notes { get; set; }
-        public float estimatedFilament { get; set; }
+        public Guid Id { get; set; }
+        public string UserSubmitting { get; set; }
+        public string Supervisor { get; set; }
+        public JobState Status { get; set; }
+        public string[] Files { get; set; }
+        public string? Notes { get; set; }
+        public float? EstimatedFilament { get; set; }
     }
 }
