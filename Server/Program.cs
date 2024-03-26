@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<OrgContext>(options =>
 {
-    options.UseSqlite("Data Source=./Database/organizer.db");
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 var app = builder.Build();
