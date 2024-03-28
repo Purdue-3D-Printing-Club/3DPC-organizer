@@ -1,13 +1,7 @@
+using Organizer.Shared.Enums;
+
 namespace Organizer.Shared.Models
 {
-    public enum PrinterState
-    {
-        Idle,
-        Printing,
-        Error,
-        Offline
-    }
-
     public class Printer
     {
         public Guid Id { get; set; }

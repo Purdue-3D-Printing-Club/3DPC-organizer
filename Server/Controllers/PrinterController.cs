@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Organizer.Server.Database;
 using Organizer.Shared.Models;
+using Organizer.Shared.Views;
 
 namespace Organizer.Server.Controllers;
 
@@ -12,9 +13,43 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
     private readonly OrgContext _context = orgContext;
 
     [HttpGet]
-    public IEnumerable<Printer> Get()
-    {        
-        return _context.Printers.ToList();
+    public IEnumerable<PrinterOverview> Get()
+    {
+        // Retrieve a list of printer overviews
+        List<PrinterOverview> printerOverviews = [];
+
+        // Iterate through each printer in the context
+        foreach (Printer printer in _context.Printers)
+        {
+            // Find the assigned job for the printer
+            Job? job = _context.Jobs.Find(printer.AssignedJobId);
+
+            // Create a new PrinterOverview object and add it to the list
+            printerOverviews.Add(new PrinterOverview(printer, job));
+        }
+
+        // Return the list of printer overviews
+        return printerOverviews;
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetPrinter(Guid id)
+    {
+        // Find the printer in the database
+        Printer? printer = _context.Printers.Find(id);
+        if (printer == null)
+        {
+            return NotFound("Printer not found");
+        }
+
+        // Find the assigned job for the printer
+        Job? job = _context.Jobs.Find(printer.AssignedJobId);
+
+        // Create a new PrinterDetail object
+        PrinterDetail printerDetail = new PrinterDetail(printer, job);
+
+        // Return the printer detail
+        return Ok(printerDetail);
     }
 
     
@@ -42,7 +77,7 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
             return BadRequest("Invalid printer data");
         }
         // Find the printer in the database
-        var existingPrinter = _context.Printers.Find(printer.Id);
+        Printer? existingPrinter = _context.Printers.Find(printer.Id);
         if (existingPrinter == null)
         {
             return NotFound("Printer not found");
@@ -61,7 +96,7 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
     public IActionResult DeletePrinter(Guid id)
     {
         // Find the printer in the database
-        var printer = _context.Printers.Find(id);
+        Printer? printer = _context.Printers.Find(id);
         if (printer == null)
         {
             return NotFound("Printer not found");
