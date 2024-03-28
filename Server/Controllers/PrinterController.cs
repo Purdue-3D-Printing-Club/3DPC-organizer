@@ -13,10 +13,10 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
     private readonly OrgContext _context = orgContext;
 
     [HttpGet]
-    public IEnumerable<PrinterOverview> Get()
+    public IEnumerable<PrinterDetail> Get()
     {
         // Retrieve a list of printer overviews
-        List<PrinterOverview> printerOverviews = [];
+        List<PrinterDetail> PrinterDetails = [];
 
         // Iterate through each printer in the context
         foreach (Printer printer in _context.Printers)
@@ -24,12 +24,12 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
             // Find the assigned job for the printer
             Job? job = _context.Jobs.Find(printer.AssignedJobId);
 
-            // Create a new PrinterOverview object and add it to the list
-            printerOverviews.Add(new PrinterOverview(printer, job));
+            // Create a new PrinterDetail object and add it to the list
+            PrinterDetails.Add(new PrinterDetail(printer, job));
         }
 
         // Return the list of printer overviews
-        return printerOverviews;
+        return PrinterDetails;
     }
 
     [HttpGet("{id}")]
