@@ -4,12 +4,15 @@
     flex-direction: column;
 }
 
-main {
-    flex: 1;
+.background {
+    background-image: linear-gradient(90deg, #408ee9, #3FC5A0);
 }
 
-.sidebar {
-    background-image: linear-gradient(180deg, #F9FAFB 0%, #BAE6FD 100%);
+main {
+    flex: 1;
+    background-color: #3a3a3a;
+    position: relative;
+    border-radius: .5em 0 0 0;
 }
 
 @media (min-width: 641px) {
@@ -27,5 +30,11 @@ main {
     article {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
+    }
+}
+
+@media (max-width: 1180px) {
+    .sidebar {
+        width: calc(40px + 2rem);
     }
 }
