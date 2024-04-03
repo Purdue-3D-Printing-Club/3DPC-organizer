@@ -19,6 +19,14 @@ namespace Organizer.Shared.Views
             this.Files = Files;
             this.Notes = Notes;
         }
+        public PendingJobSubmission(Job job)
+        {
+            SubmitterName = job.SubmitterName;
+            SubmitterEmail = job.SubmitterEmail;
+            SupervisorName = job.SupervisorName;
+            Files = job.Files;
+            Notes = job.Notes;
+        }
     }
 
     public class ActiveJob
