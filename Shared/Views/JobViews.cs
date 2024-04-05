@@ -10,8 +10,14 @@ namespace Organizer.Shared.Views
         public string SupervisorName { get; set; }
         public string[] Files { get; set; }
         public string? Notes { get; set; }
-        
-        public PendingJobSubmission(string SubmitterName, string SubmitterEmail, string SupervisorName, string[] Files, string? Notes)
+
+        public PendingJobSubmission(
+            string SubmitterName,
+            string SubmitterEmail,
+            string SupervisorName,
+            string[] Files,
+            string? Notes
+        )
         {
             this.SubmitterName = SubmitterName;
             this.SubmitterEmail = SubmitterEmail;
@@ -19,6 +25,7 @@ namespace Organizer.Shared.Views
             this.Files = Files;
             this.Notes = Notes;
         }
+
         public PendingJobSubmission(Job job)
         {
             SubmitterName = job.SubmitterName;

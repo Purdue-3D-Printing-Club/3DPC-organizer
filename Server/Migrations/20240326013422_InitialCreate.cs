@@ -26,7 +26,8 @@ namespace Organizer.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Printers",
@@ -41,17 +42,16 @@ namespace Organizer.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Printers", x => x.Id);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Jobs");
+            migrationBuilder.DropTable(name: "Jobs");
 
-            migrationBuilder.DropTable(
-                name: "Printers");
+            migrationBuilder.DropTable(name: "Printers");
         }
     }
 }

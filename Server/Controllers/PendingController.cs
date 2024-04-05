@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-
 using Organizer.Server.Database;
 using Organizer.Shared.Enums;
 using Organizer.Shared.Models;
@@ -9,7 +8,8 @@ namespace Organizer.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PendingController(ILogger<PendingController> logger, OrgContext context) : ControllerBase
+public class PendingController(ILogger<PendingController> logger, OrgContext context)
+    : ControllerBase
 {
     private readonly ILogger<PendingController> _logger = logger;
     private readonly OrgContext _context = context;
@@ -17,7 +17,9 @@ public class PendingController(ILogger<PendingController> logger, OrgContext con
     [HttpGet]
     public IEnumerable<PendingJobSubmission> Get()
     {
-        return _context.Jobs.Where(j => j.Status == JobState.Pending).Select(j => new PendingJobSubmission(j));
+        return _context
+            .Jobs.Where(j => j.Status == JobState.Pending)
+            .Select(j => new PendingJobSubmission(j));
     }
 
     [HttpPost]

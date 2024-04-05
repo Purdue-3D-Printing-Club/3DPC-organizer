@@ -18,7 +18,14 @@ namespace Organizer.Shared.Models
         public double? EstimatedFilament { get; set; }
         public string[]? FailureNotes { get; set; }
 
-        public Job(string SubmitterName, string SubmitterEmail, string SupervisorName, string[] Files, string? Notes, double? EstimatedFilament)
+        public Job(
+            string SubmitterName,
+            string SubmitterEmail,
+            string SupervisorName,
+            string[] Files,
+            string? Notes,
+            double? EstimatedFilament
+        )
         {
             Id = Guid.NewGuid();
             this.SubmitterName = SubmitterName;
@@ -29,6 +36,7 @@ namespace Organizer.Shared.Models
             this.EstimatedFilament = EstimatedFilament;
             Status = JobState.Pending;
         }
+
         public Job(PendingJobSubmission submission)
         {
             Id = Guid.NewGuid();

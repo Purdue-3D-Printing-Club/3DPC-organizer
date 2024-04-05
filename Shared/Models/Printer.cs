@@ -18,6 +18,7 @@ namespace Organizer.Shared.Models
             Status = PrinterState.Offline;
             AssignedJobId = null;
         }
+
         public Printer()
         {
             Id = Guid.NewGuid();

@@ -7,7 +7,8 @@ namespace Organizer.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PrinterController(ILogger<PrinterController> logger, OrgContext orgContext) : ControllerBase
+public class PrinterController(ILogger<PrinterController> logger, OrgContext orgContext)
+    : ControllerBase
 {
     private readonly ILogger<PrinterController> _logger = logger;
     private readonly OrgContext _context = orgContext;
@@ -52,7 +53,6 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
         return Ok(printerDetail);
     }
 
-    
     [HttpPut]
     public IActionResult CreatePrinter([FromBody] Printer printer)
     {

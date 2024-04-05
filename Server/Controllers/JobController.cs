@@ -17,7 +17,9 @@ public class JobController(ILogger<JobController> logger, OrgContext orgContext)
     public IEnumerable<CompletedJob> Get()
     {
         // Retrieve all completed jobs from the context and map them to CompletedJob view models
-        return _context.Jobs.Where(j => j.Status == JobState.Completed).Select(j => new CompletedJob(j));
+        return _context
+            .Jobs.Where(j => j.Status == JobState.Completed)
+            .Select(j => new CompletedJob(j));
     }
 
     [HttpPatch("{id}")]

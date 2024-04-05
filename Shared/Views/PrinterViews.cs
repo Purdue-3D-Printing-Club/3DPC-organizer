@@ -3,7 +3,6 @@ using Organizer.Shared.Models;
 
 namespace Organizer.Shared.Views
 {
-
     public class PrinterDetail
     {
         public Guid Id { get; set; }
