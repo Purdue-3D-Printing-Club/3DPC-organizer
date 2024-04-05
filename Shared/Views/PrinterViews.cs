@@ -20,4 +20,16 @@ namespace Organizer.Shared.Views
             AssignedJob = job;
         }
     }
+
+    public class NewPrinter
+    {
+        public string Name { get; set; }
+        public string PrinterType { get; set; }
+
+        public NewPrinter(string name, string printerType)
+        {
+            Name = name;
+            PrinterType = printerType;
+        }
+    }
 }
