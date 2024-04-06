@@ -1,58 +1,61 @@
 using Microsoft.AspNetCore.Mvc;
+using Organizer.Server.Database;
+using Organizer.Shared.Enums;
 using Organizer.Shared.Models;
+using Organizer.Shared.Views;
 
 namespace Organizer.Server.Controllers;
 
 [ApiController]
-[Route("api/job")]
-public class JobController : ControllerBase
+[Route("api/[controller]")]
+public class JobController(ILogger<JobController> logger, OrgContext orgContext) : ControllerBase
 {
-    private static Job[] temp_jobs = { // temporary until I get a database setup
-        new Job {
-            id = "job1",
-            userSubmittingId = "usr1",
-            supervisorId = "sup1",
-            status = JobState.Pending,
-            files = new string[] { "filepath1" },
-            notes = "notes",
-            estimatedFilament = 1.2f
-        },
-        new Job {
-            id = "job2",
-            userSubmittingId = "usr2",
-            supervisorId = "sup2",
-            status = JobState.InProgress,
-            files = new string[] { "filepath1", "filepath2" },
-            notes = "notes",
-            estimatedFilament = 123.45f
-        },
-    };
-    private readonly ILogger<JobController> _logger;
-    public JobController(ILogger<JobController> logger)
+    private readonly ILogger<JobController> _logger = logger;
+    private readonly OrgContext _context = orgContext;
+
+    [HttpGet("completed")]
+    public IEnumerable<CompletedJob> Get()
     {
-        _logger = logger;
+        // Retrieve all completed jobs from the context and map them to CompletedJob view models
+        return _context
+            .Jobs.Where(j => j.Status == JobState.Completed)
+            .Select(j => new CompletedJob(j));
     }
 
-    [HttpGet]
-    public Job[] Get()
+    [HttpPatch("{id}")]
+    public IActionResult UpdateJob(Guid id, [FromBody] ActiveJob activeJob)
     {
-        return temp_jobs;
+        // Find the job with the specified id
+        Job? job = _context.Jobs.Find(id);
+        if (job == null)
+        {
+            return NotFound("Job not found");
+        }
+
+        // Update the job properties with the values from the activeJob parameter
+        job.Status = activeJob.Status;
+        job.StartedTime = activeJob.StartedTime;
+        job.Notes = activeJob.Notes;
+        job.EstimatedFilament = activeJob.EstimatedFilament;
+        _context.SaveChanges();
+
+        return Ok();
     }
 
-    [HttpGet("{id}")]
-    public Job? Get(string? id)
+    [HttpDelete("{id}")]
+    public IActionResult DeleteJob(Guid id)
     {
-        if (id == null)
+        // Find the job with the specified id
+        Job? job = _context.Jobs.Find(id);
+        if (job == null)
         {
-            return null;
+            return NotFound("Job not found");
         }
-        for (int i = 0; i < temp_jobs.Length; i++)
-        {
-            if (temp_jobs[i].id == id)
-            {
-                return temp_jobs[i];
-            }
-        }
-        return null;
+
+        // Remove the job from the context and save changes
+        _context.Jobs.Remove(job);
+        _context.SaveChanges();
+
+        return Ok();
     }
 }
