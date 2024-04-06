@@ -5,13 +5,25 @@ namespace Organizer.Shared.Views
 {
     public class PendingJobSubmission
     {
+        public Guid Id { get; set; }
         public string SubmitterName { get; set; }
         public string SubmitterEmail { get; set; }
         public string SupervisorName { get; set; }
         public string[] Files { get; set; }
         public string? Notes { get; set; }
 
+        public PendingJobSubmission()
+        {
+            Id = Guid.Empty;
+            SubmitterName = "";
+            SubmitterEmail = "";
+            SupervisorName = "";
+            Files = Array.Empty<string>();
+            Notes = null;
+        }
+
         public PendingJobSubmission(
+            Guid Id,
             string SubmitterName,
             string SubmitterEmail,
             string SupervisorName,
@@ -19,6 +31,7 @@ namespace Organizer.Shared.Views
             string? Notes
         )
         {
+            this.Id = Id;
             this.SubmitterName = SubmitterName;
             this.SubmitterEmail = SubmitterEmail;
             this.SupervisorName = SupervisorName;
@@ -28,6 +41,7 @@ namespace Organizer.Shared.Views
 
         public PendingJobSubmission(Job job)
         {
+            Id = job.Id;
             SubmitterName = job.SubmitterName;
             SubmitterEmail = job.SubmitterEmail;
             SupervisorName = job.SupervisorName;
@@ -49,6 +63,21 @@ namespace Organizer.Shared.Views
         public string? Notes { get; set; }
         public double? EstimatedFilament { get; set; }
         public string[]? FailureNotes { get; set; }
+
+        public ActiveJob()
+        {
+            Id = Guid.Empty;
+            SubmitterName = "";
+            SubmitterEmail = "";
+            SupervisorName = "";
+            Files = Array.Empty<string>();
+            Status = JobState.Pending;
+            SubmittedTime = DateTime.UnixEpoch;
+            StartedTime = DateTime.UnixEpoch;
+            Notes = null;
+            EstimatedFilament = null;
+            FailureNotes = null;
+        }
 
         public ActiveJob(Job job)
         {
@@ -79,6 +108,21 @@ namespace Organizer.Shared.Views
         public string? Notes { get; set; }
         public double? EstimatedFilament { get; set; }
         public string[]? FailureNotes { get; set; }
+
+        public CompletedJob()
+        {
+            Id = Guid.Empty;
+            SubmitterName = "";
+            SubmitterEmail = "";
+            SupervisorName = "";
+            Status = JobState.Pending;
+            SubmittedTime = DateTime.UnixEpoch;
+            StartedTime = DateTime.UnixEpoch;
+            CompletedTime = DateTime.UnixEpoch;
+            Notes = null;
+            EstimatedFilament = null;
+            FailureNotes = null;
+        }
 
         public CompletedJob(Job job)
         {
