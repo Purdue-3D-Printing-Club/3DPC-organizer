@@ -6,7 +6,7 @@
     align-items: center;
     border-radius: .375rem;
     border: 1px solid #000;
-    background: #F4F4F4;
+    color: #F4F4F4;
 }
 
 .printer:first-child {

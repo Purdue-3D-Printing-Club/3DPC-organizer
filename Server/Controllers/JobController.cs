@@ -22,6 +22,29 @@ public class JobController(ILogger<JobController> logger, OrgContext orgContext)
             .Select(j => new CompletedJob(j));
     }
 
+    [HttpGet("{id}")]
+    public IActionResult GetJob(Guid id)
+    {
+        // Find the job with the specified id
+        Job? job = _context.Jobs.Find(id);
+        if (job == null)
+        {
+            return NotFound("Job not found");
+        }
+
+        // Return the job
+        return Ok(job);
+    }
+
+    [HttpGet("active")]
+    public IEnumerable<ActiveJob> GetActiveJobs()
+    {
+        // Retrieve all active jobs from the context and map them to ActiveJob view models
+        return _context
+            .Jobs.Where(j => j.Status == JobState.InProgress)
+            .Select(j => new ActiveJob(j));
+    }
+
     [HttpPatch("{id}")]
     public IActionResult UpdateJob(Guid id, [FromBody] ActiveJob activeJob)
     {
