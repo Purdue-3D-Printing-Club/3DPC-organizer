@@ -1,4 +1,5 @@
 ﻿@page "/printers"
+@using Organizer.Client.Components
 @using Organizer.Shared.Enums
 @using Organizer.Shared.Models
 @using Organizer.Shared.Views
@@ -16,18 +17,7 @@
     {
         @foreach (var printer in printer_list)
         {
-            <div class="printer">
-                <span>@printer.Name</span>
-                @if (printer.AssignedJob != null)
-                {
-                    <span>Printing job for 
-                        @printer.AssignedJob.SubmitterName</span>
-                }
-                else
-                {
-                    <span>@printer.Status</span>
-                }
-            </div>
+            <PrinterPanel printer="@printer" />
         }
     }
 </div>

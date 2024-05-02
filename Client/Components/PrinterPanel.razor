@@ -1,0 +1,26 @@
+@using Organizer.Shared.Views
+
+<div class="printer-panel">
+    @if (printer == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <span>@printer.Name</span>
+        @if (printer.AssignedJob != null)
+        {
+            <span>Printing job for
+                @printer.AssignedJob.SubmitterName</span>
+        }
+        else
+        {
+            <span>@printer.Status</span>
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public PrinterDetail? printer { get; set; }
+}
