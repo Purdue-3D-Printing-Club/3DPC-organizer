@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Check if the Docker daemon is running
-if ! docker info >/dev/null 2>&1; then
-    echo "Docker daemon is not running. Please start Docker before running this script."
+# Check if the Podman daemon is running
+if ! podman info >/dev/null 2>&1; then
+    echo "Podman daemon is not running. Please start Podman before running this script."
     exit 1
 fi
 
