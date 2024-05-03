@@ -8,6 +8,8 @@
     border: 1px solid #000;
     color: #F4F4F4;
 }
-.printer-detail {
-    background-color: #FFF;
+.expanded-col {
+    flex-direction: column;
+    padding: .5rem 0;
+    width: 50%;
 }
