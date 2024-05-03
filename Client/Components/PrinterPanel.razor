@@ -1,21 +1,38 @@
 @using Organizer.Shared.Views
 
-<div class="printer-panel">
+<div class="printer-panel @(expanded ? "printer-detail": "")" @onclick="() => expand()">
     @if (printer == null)
     {
         <p>Loading...</p>
     }
     else
     {
-        <span>@printer.Name</span>
-        @if (printer.AssignedJob != null)
+        @if (expanded)
         {
-            <span>Printing job for
-                @printer.AssignedJob.SubmitterName</span>
+            <span>@printer.Name</span>
+            <p>expanded</p>
+            @if (printer.AssignedJob != null)
+            {
+                <span>Printing job for
+                    @printer.AssignedJob.SubmitterName</span>
+            }
+            else
+            {
+                <span>@printer.Status</span>
+            }
         }
         else
         {
-            <span>@printer.Status</span>
+            <span>@printer.Name</span>
+            @if (printer.AssignedJob != null)
+            {
+                <span>Printing job for
+                    @printer.AssignedJob.SubmitterName</span>
+            }
+            else
+            {
+                <span>@printer.Status</span>
+            }
         }
     }
 </div>
@@ -23,4 +40,10 @@
 @code {
     [Parameter]
     public PrinterDetail? printer { get; set; }
+    public bool expanded { get; set; } = false;
+
+    public async void expand()
+    {
+        expanded = !expanded;
+    }
 }

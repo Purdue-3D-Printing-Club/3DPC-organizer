@@ -15,9 +15,9 @@
     }
     else
     {
-        @foreach (var printer in printer_list)
+        @foreach (var printer in printer_list.Select((value, index) => new { Value = value, Index = index }))
         {
-            <PrinterPanel printer="@printer" />
+            <PrinterPanel printer="@printer.Value"/>
         }
     }
 </div>
