@@ -444,4 +444,4 @@ $RECYCLE.BIN/
 
 
 # Database
-Server/Database/organizer.db
+Server/Database/db/*
