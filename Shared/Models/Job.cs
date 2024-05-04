@@ -18,6 +18,22 @@ namespace Organizer.Shared.Models
         public double? EstimatedFilament { get; set; }
         public string[]? FailureNotes { get; set; }
 
+        public Job()
+        {
+            Id = Guid.Empty;
+            SubmitterName = "";
+            SubmitterEmail = "";
+            SupervisorName = "";
+            SubmittedTime = null;
+            StartedTime = null;
+            CompletedTime = null;
+            Status = JobState.Pending;
+            Files = Array.Empty<string>();
+            Notes = null;
+            EstimatedFilament = null;
+            FailureNotes = null;
+        }
+
         public Job(
             string SubmitterName,
             string SubmitterEmail,

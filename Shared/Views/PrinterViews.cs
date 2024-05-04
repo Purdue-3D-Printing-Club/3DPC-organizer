@@ -11,6 +11,15 @@ namespace Organizer.Shared.Views
         public PrinterState Status { get; set; }
         public Job? AssignedJob { get; set; }
 
+        public PrinterDetail()
+        {
+            Id = Guid.Empty;
+            Name = "";
+            PrinterType = "";
+            Status = PrinterState.Offline;
+            AssignedJob = null;
+        }
+
         public PrinterDetail(Printer printer, Job? job)
         {
             Id = printer.Id;
@@ -18,6 +27,24 @@ namespace Organizer.Shared.Views
             PrinterType = printer.PrinterType;
             Status = printer.Status;
             AssignedJob = job;
+        }
+    }
+
+    public class NewPrinter
+    {
+        public string Name { get; set; }
+        public string PrinterType { get; set; }
+
+        public NewPrinter()
+        {
+            Name = "";
+            PrinterType = "";
+        }
+
+        public NewPrinter(string name, string printerType)
+        {
+            Name = name;
+            PrinterType = printerType;
         }
     }
 }

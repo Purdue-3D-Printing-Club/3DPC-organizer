@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Organizer.Server.Database;
+using Organizer.Shared.Enums;
 using Organizer.Shared.Models;
 using Organizer.Shared.Views;
 
@@ -53,16 +54,38 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
         return Ok(printerDetail);
     }
 
-    [HttpPut]
-    public IActionResult CreatePrinter([FromBody] Printer printer)
+    [HttpGet("available")]
+    public IEnumerable<Printer> GetAvailablePrinters()
     {
-        // Validate the request body
+        // Retrieve a list of available printers
+        List<Printer> availablePrinters = [];
+
+        // Iterate through each printer in the context
+        foreach (Printer printer in _context.Printers)
+        {
+            // Check if the printer is available
+            if (printer.Status == PrinterState.Idle)
+            {
+                // Add the printer to the list of available printers
+                availablePrinters.Add(printer);
+            }
+        }
+
+        // Return the list of available printers
+        return availablePrinters;
+    }
+
+    [HttpPut]
+    public IActionResult CreatePrinter([FromBody] NewPrinter printer)
+    {
         if (printer == null)
         {
             return BadRequest("Invalid printer data");
         }
-        // Add the new printer to the database
-        _context.Printers.Add(printer);
+
+        Printer newPrinter = new Printer(printer.Name, printer.PrinterType);
+
+        _context.Printers.Add(newPrinter);
         _context.SaveChanges();
 
         return Ok(printer);

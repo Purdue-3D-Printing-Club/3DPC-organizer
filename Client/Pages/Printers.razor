@@ -1,20 +1,32 @@
 ﻿@page "/printers"
+@using Organizer.Shared.Enums
 @using Organizer.Shared.Models
+@using Organizer.Shared.Views
 @inject HttpClient Http
 
 <PageTitle>Printer Dashboard</PageTitle>
 <h1 class="page-header">Printers</h1>
 
 <div class="page-content">
-    @if(printer_list is null) {
+    @if (printer_list == null)
+    {
         <p>Loading...</p>
-    } else {
+    }
+    else
+    {
         @foreach (var printer in printer_list)
         {
             <div class="printer">
-                <span>@printer.Id</span>
                 <span>@printer.Name</span>
-                <span>@printer.Status</span>
+                @if (printer.AssignedJob != null)
+                {
+                    <span>Printing job for 
+                        @printer.AssignedJob.SubmitterName</span>
+                }
+                else
+                {
+                    <span>@printer.Status</span>
+                }
             </div>
         }
     }
@@ -22,10 +34,14 @@
 
 
 @code {
-    private Printer[]? printer_list;
-    
+    private PrinterDetail[]? printer_list;
+
     protected override async Task OnInitializedAsync()
     {
-        printer_list = await Http.GetFromJsonAsync<Printer[]>("api/Printer");
+        printer_list = await Http.GetFromJsonAsync<PrinterDetail[]>("api/Printer");
+        if (printer_list is null)
+        {
+            printer_list = new PrinterDetail[0];
+        }
     }
 }

@@ -15,7 +15,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var printers = await Http.GetFromJsonAsync<List<Printer>>("api/printer");
-        available = printers.Count;
+        var printers = await Http.GetFromJsonAsync<List<Printer>>("api/printer/available");
+        available = printers != null ? printers.Count : 0;
     }
 }
