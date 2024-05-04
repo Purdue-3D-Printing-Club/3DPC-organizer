@@ -12,5 +12,5 @@ container_name="3dpc-organizer-v2.0.0"
 podman rmi -f ${container_name}
 
 
-./Scripts/build.sh container_name
-./Scripts/run.sh container_name
+./Scripts/build.sh ${container_name}
+./Scripts/run.sh ${container_name}
