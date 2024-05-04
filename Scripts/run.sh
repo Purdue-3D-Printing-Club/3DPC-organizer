@@ -7,17 +7,13 @@ if ! podman info >/dev/null 2>&1; then
 fi
 
 # Check if both solution name and version number are provided as command line arguments
-if [ $# -ne 2 ]; then
-    echo "Please provide the solution name and version number as command line arguments."
+if [ $# -ne 1 ]; then
+    echo "Please provide the container name as command line arguments."
     exit 1
 fi
 
-# Set the name of the solution and version number from the command line arguments
-solution_name="$1"
-version_number="$2"
-
 # Set the name of the container with the version number appended
-container_name="${solution_name}-${version_number}"
+container_name="$1"
 
 # Start the podman container
-podman run -it --rm "${container_name}"
+podman run -it --publish 9998:9998 "${container_name}"
