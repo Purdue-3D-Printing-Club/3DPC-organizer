@@ -23,6 +23,7 @@ if ! podman volume inspect "$VOLUME_NAME" &> /dev/null; then
     podman volume create "$VOLUME_NAME"
 
     # Create the database file
+    mkdir -p "$PATH_TO_DATABASE"
     touch "$PATH_TO_DATABASE/$FILE_TO_COPY"
 
     # Copy the file to the volume
