@@ -18,6 +18,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 COPY --from=build-env /App/out .
 
+# Copy the database to the volume
+VOLUME /3dpc-org-db
+COPY --from=build-env /App/Server/Database/db/ /3dpc-org-db
+
 # Set the ASPNETCORE_URLS environment variable
 ENV ASPNETCORE_URLS=http://+:9998
 

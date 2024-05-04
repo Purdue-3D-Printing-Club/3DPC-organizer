@@ -11,6 +11,6 @@ container_name="3dpc-organizer-v2.0.0"
 # Remove previous image (if it exists)
 podman rmi -f ${container_name}
 
-
+./Scripts/setup_volume.sh
 ./Scripts/build.sh ${container_name}
 ./Scripts/run.sh ${container_name}
