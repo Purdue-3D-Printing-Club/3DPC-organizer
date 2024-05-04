@@ -16,4 +16,4 @@ fi
 container_name="$1"
 
 # Start the podman container
-podman run -it --publish 9998:9998 "${container_name}"
+podman run -it --publish 9998:9998  --volume 3dpc-org-db:/mnt/ "${container_name}"
