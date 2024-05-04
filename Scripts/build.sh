@@ -12,6 +12,9 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
+# Verify database file exists
+touch ./Server/Database/organizer.db
+
 # Set the name of the container with the version number appended
 container_name="$1"
 
