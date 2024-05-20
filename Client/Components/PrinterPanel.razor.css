@@ -1,4 +1,4 @@
-.printer {
+.printer-panel {
     display: flex;
     padding: .5rem 1.25rem;
     margin: .75rem 0;
@@ -8,11 +8,8 @@
     border: 1px solid #000;
     color: #F4F4F4;
 }
-
-.printer:first-child {
-    margin-top: 0;
-}
-
-.printer:last-child {
-    margin-bottom: 0;
+.expanded-col {
+    flex-direction: column;
+    padding: .5rem 0;
+    width: 50%;
 }

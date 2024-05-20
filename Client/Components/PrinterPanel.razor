@@ -1,0 +1,52 @@
+@using Organizer.Shared.Views
+
+<div class="printer-panel" @onclick="() => expand()">
+    @if (printer == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        @if (expanded)
+        {
+            <div class="expanded-col">
+                <h3>@printer.PrinterType "@printer.Name"</h3>
+            </div>
+            <div class="expanded-col">
+                <p>@printer.Status</p>
+                @if (printer.AssignedJob != null)
+                {
+                    <p>@printer.AssignedJob.SubmitterName</p>
+                    <p>@printer.AssignedJob.SubmitterEmail</p>
+                    <p>@printer.AssignedJob.SupervisorName</p>
+                    <p>@printer.AssignedJob.Status</p>
+                    <p>@printer.AssignedJob.Files</p>
+                }
+            </div>
+        }
+        else
+        {
+            <span>@printer.Name</span>
+            @if (printer.AssignedJob != null)
+            {
+                <span>Printing job for
+                    @printer.AssignedJob.SubmitterName</span>
+            }
+            else
+            {
+                <span>@printer.Status</span>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public PrinterDetail? printer { get; set; }
+    public bool expanded { get; set; } = false;
+
+    public void expand()
+    {
+        expanded = !expanded;
+    }
+}

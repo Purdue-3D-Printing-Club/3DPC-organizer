@@ -104,7 +104,7 @@ button {
     }
 
         .loading-progress circle:last-child {
-            stroke: #1b6ec2;
+            stroke: linear-gradient(90deg, #408EE9 0%, #85E848 100%);
             stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
             transition: stroke-dasharray 0.05s ease-in-out;
         }
