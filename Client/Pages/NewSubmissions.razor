@@ -1,27 +1,20 @@
-@page "/submissions"
+@page "/new-submission"
 @using Organizer.Shared.Models
 @inject HttpClient Http
 
 <div class="page-header">
-    <h1>Pending Submissions</h1>
-    <button>New Submission</button>
+    <h1>New Submission</h1>
 </div>
 
 <div class="page-content">
-    @if(submissions is null) {
-        <p>Loading...</p>
-    } else {
-        @foreach (var submission in submissions)
-        {
-            <div>
-                <span>@submission.Notes</span>
-                <span>@submission.Id</span>
-            </div>
-        }
-    }
+    <InputFile OnChange="LoadFiles" multiple />
 </div>
 
 
 @code {
-    private List<Job> submissions;
+
+    private void LoadFiles(InputFileChangeEventArgs e)
+    {
+        return;
+    }
 }

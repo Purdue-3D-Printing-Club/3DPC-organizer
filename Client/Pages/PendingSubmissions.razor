@@ -1,0 +1,32 @@
+@page "/submissions"
+@using Organizer.Shared.Models
+@inject HttpClient Http
+
+<div class="page-header">
+    <h1>Pending Submissions</h1>
+</div>
+
+<div class="page-content">
+    <a href="/new-submission">
+        <button>New Submission</button>
+    </a>
+    @if (submissions is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        @foreach (var submission in submissions)
+        {
+            <div>
+                <span>@submission.Notes</span>
+                <span>@submission.Id</span>
+            </div>
+        }
+    }
+</div>
+
+
+@code {
+    private List<Job> submissions;
+}
