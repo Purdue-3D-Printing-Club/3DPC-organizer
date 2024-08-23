@@ -18,13 +18,14 @@ public class FileController(ILogger<JobController> logger, OrgContext orgContext
             return BadRequest("No file uploaded.");
         }
 
-        var filePath = Path.Combine("UploadedFiles", file.FileName);
+        var size = file.Length;
 
-        await using (var stream = new FileStream(filePath, FileMode.Create))
+        var filePath = Path.GetTempFileName();
+        using (var stream = System.IO.File.Create(filePath))
         {
             await file.CopyToAsync(stream);
         }
 
-        return Ok(new { filePath });
+        return Ok(new { filePath, size });
     }
 }
