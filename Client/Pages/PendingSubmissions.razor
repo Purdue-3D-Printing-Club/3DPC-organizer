@@ -29,4 +29,9 @@
 
 @code {
     private List<Job> submissions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        submissions = await Http.GetFromJsonAsync<List<Job>>("api/pending");
+    }
 }

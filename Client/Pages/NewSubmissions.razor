@@ -74,20 +74,20 @@
     [SupplyParameterFromForm]
     private PendingJobSubmission? submission { get; set; }
 
-    private List<MultipartFormDataContent> files = new();
     private string? firstName;
     private string? lastName;
     private JobType jobType;
     private string? dimensions;
     private List<string> filePaths = new();
 
-    protected override void OnInitialized() => submission ??= new();
+    protected override void OnInitialized()
+    {
+        submission ??= new();
+    }
 
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
         if (submission is null) throw new Exception("Error in loading page");
-
-        files.Clear();
 
         foreach (var file in e.GetMultipleFiles())
         {
@@ -125,6 +125,9 @@
     private async void Submit()
     {
         if (submission is null) throw new Exception("Error in loading page");
+
+        if (firstName is null || firstName == "" || lastName is null || lastName == "") return;
+        // TODO: add form validation
 
         submission.SubmitterName = firstName + "," + lastName;
         submission.Notes = "Dimensions:" + dimensions + '\n';
