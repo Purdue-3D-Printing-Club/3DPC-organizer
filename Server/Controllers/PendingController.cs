@@ -22,7 +22,7 @@ public class PendingController(ILogger<PendingController> logger, OrgContext con
             .Select(j => new PendingJobSubmission(j));
     }
 
-    [HttpPost]
+    [HttpPut]
     public IActionResult CreateJob([FromBody] PendingJobSubmission submission)
     {
         Job job = new(submission);

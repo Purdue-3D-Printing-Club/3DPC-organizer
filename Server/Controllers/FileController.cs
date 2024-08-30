@@ -10,7 +10,7 @@ public class FileController(ILogger<JobController> logger, OrgContext orgContext
     private readonly ILogger<JobController> _logger = logger;
     private readonly OrgContext _context = orgContext;
 
-    [HttpPost]
+    [HttpPut]
     public async Task<IActionResult> UploadFile(IFormFile file)
     {
         if (file == null || file.Length == 0)
@@ -18,7 +18,7 @@ public class FileController(ILogger<JobController> logger, OrgContext orgContext
             return BadRequest("No file uploaded.");
         }
 
-        var size = file.Length;
+        long size = file.Length;
 
         var filePath = Path.GetTempFileName();
         using (var stream = System.IO.File.Create(filePath))
@@ -26,6 +26,8 @@ public class FileController(ILogger<JobController> logger, OrgContext orgContext
             await file.CopyToAsync(stream);
         }
 
-        return Ok(new { filePath, size });
+        _logger.LogInformation("File uploaded at {filePath}", filePath);
+
+        return Ok(new { filePath });
     }
 }

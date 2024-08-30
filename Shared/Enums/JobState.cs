@@ -8,4 +8,12 @@ namespace Organizer.Shared.Enums
         Failed,
         Cancelled
     }
+
+    public enum JobType
+    {
+        FDM,
+        /* SLA,
+        Markforged,
+        SLS */
+    }
 }

@@ -1,5 +1,7 @@
 @page "/new-submission"
-@using Organizer.Shared.Models
+@using System.Text.Json.Nodes
+@using Organizer.Shared.Enums
+@using Organizer.Shared.Views
 @inject HttpClient Http
 
 <div class="page-header">
@@ -7,100 +9,132 @@
 </div>
 
 <div class="page-content">
-    <form>
+    <EditForm Model="submission" OnSubmit="Submit" FormName="NewSubmissionForm">
         <div class="form-group">
-            <label for="first-name">First Name:</label>
-            <input type="text" id="first-name" name="first-name" placeholder="First Name" />
-            <label for="last-name">Last Name:</label>
-            <input type="text" id="last-name" name="last-name" placeholder="Last Name" />
+            <label class="text-labels" for="first-name">First Name:</label>
+            <InputText @bind-Value="firstName" class="text-inputs" name="first-name" id="first-name"
+                placeholder="First Name" />
+        </div>
+        <div class="form-group">
+            <label class="text-labels" for="last-name">Last Name:</label>
+            <InputText @bind-Value="lastName" class="text-inputs" name="last-name" id="last-name"
+                placeholder="Last Name" />
         </div>
 
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="Email" />
+            <label class="text-labels" for="email">Email:</label>
+            <InputText @bind-Value="submission!.SubmitterEmail" class="text-inputs" id="email" name="email"
+                placeholder="Email" />
         </div>
 
         <div class="form-group">
-            <label for="supervisor-name">Supervisor Name:</label>
-            <input type="text" id="supervisor-name" name="supervisor-name" placeholder="Supervisor Name" />
+            <label class="text-labels" for="supervisor-name">Supervisor Name:</label>
+            <InputText @bind-Value="submission.SupervisorName   " type="text" class="text-inputs" id="supervisor-name"
+                name="supervisor-name" placeholder="Supervisor Name" />
         </div>
 
         <div class="form-group">
-            <input type="radio" id="FDM" name="print-type" />
-            <label for="FDM">FDM</label>
-
-            <input type="radio" id="Markforged FDM" name="print-type" />
-            <label for="Markforged FDM">Markforged FDM</label>
-
-            <input type="radio" id="SLA" name="print-type" />
-            <label for="SLA">SLA</label>
-
-            <input type="radio" id="SLS" name="print-type" />
-            <label for="SLS">SLS</label>
+            @*FDM or SLA > if SLA, confirmation*@
+            <label class="text-labels" for="job-type">Job Type:</label>
+            <InputSelect @bind-Value="jobType" class="select-inputs" id="job-type" name="job-type">
+                @foreach (var value in Enum.GetValues(typeof(JobType)))
+                {
+                    <option>@value</option>
+                }
+            </InputSelect>
         </div>
 
         <div class="form-group">
-            <label for="dimensions">Dimensions:</label>
-            <input type="text" id="dimensions" name="dimensions" placeholder="Dimensions" />
+            @*What are the rough dimensions (L x W x H) of your print? (ex: part 1 = 1 mm cube, part 2 = 2 mm x 3 mm x 4
+            mm) *@
+            <label class="text-labels" for="dimensions">Dimensions:</label>
+            <InputText @bind-Value="dimensions" class="text-inputs" id="dimensions" name="dimensions"
+                placeholder="Dimensions" />
         </div>
 
         <div class="form-group">
-            <label for="filenames">Filenames:</label>
-            <input type="text" id="filenames" name="filenames" placeholder="Filenames" />
+            @*This part will be (check all that apply) academic, research, personal, functional, decorative
+            Please give us details about how you want your part printed. Include infill, shells, supports, etc. If the
+            supervisor has any notes, please write them here.*@
+            <label class="text-labels" for="notes">Notes:</label>
+            <InputTextArea @bind-Value="submission.Notes" class="text-area-inputs text-inputs" id="notes" name="notes"
+                placeholder="Notes" />
         </div>
 
         <div class="form-group">
-            <label for="notes">Notes:</label>
-            <input type="text" id="notes" name="notes" placeholder="Notes" />
-        </div>
-        @* form fields
-        first name
-        last name
-        purdue email
-        supervisor name
-        FDM or SLA
-        > if SLA, confirmation
-        What are the rough dimensions (L x W x H) of your print? (ex: part 1 = 1 mm cube, part 2 = 2 mm x 3 mm x 4 mm)
-        What are the EXACT name(s) of your part(s)?
-        Upload your part(s) in .STL format in mm, no other formats accepted! *
-        This part will be (check all that apply) academic, research, personal, functional, decorative
-        Please give us details about how you want your part printed. Include infill, shells, supports, etc. If the
-        supervisor has any notes, please write them here.
-        *@
-        <div class="form-group">
+            @*Upload your part(s) in .STL format in mm, no other formats accepted!*@
             <InputFile OnChange="LoadFiles" multiple />
         </div>
         <button type="submit">Submit</button>
-    </form>
+    </EditForm>
 </div>
 
 
 @code {
+    [SupplyParameterFromForm]
+    private PendingJobSubmission? submission { get; set; }
+
+    private List<MultipartFormDataContent> files = new();
+    private string? firstName;
+    private string? lastName;
+    private JobType jobType;
+    private string? dimensions;
+    private List<string> filePaths = new();
+
+    protected override void OnInitialized() => submission ??= new();
 
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
+        if (submission is null) throw new Exception("Error in loading page");
+
+        files.Clear();
+
         foreach (var file in e.GetMultipleFiles())
         {
-            const int maxFileSize = 1024 * 1024 * 70; // 70 MB
-            using var content = new MultipartFormDataContent();
-            using var stream = file.OpenReadStream(maxAllowedSize: maxFileSize);
-
-            var fileContent = new StreamContent(stream);
-            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
-            content.Add(fileContent, "file", file.Name); // replace filename with DateTime.Now() +
-
-            var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync("api/File", content);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                Console.WriteLine("File uploaded successfully.");
-                Console.WriteLine(await response.Content.ReadAsStringAsync());
+                const int maxFileSize = 1024 * 1024 * 70; // 70 MB
+                using var content = new MultipartFormDataContent();
+                using var stream = file.OpenReadStream(maxAllowedSize: maxFileSize);
+
+                var fileContent = new StreamContent(stream);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                content.Add(fileContent, "file", file.Name);
+
+                HttpResponseMessage response = await Http.PutAsync("api/file", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonNode responseContent = JsonNode.Parse(response.Content.ReadAsStream())!;
+                    string tmpFilepath = responseContent!["filePath"]?.ToString() ?? "";
+                    submission.Files.Append(tmpFilepath);
+                    Console.WriteLine(tmpFilepath);
+                }
+                else
+                {
+                    throw new Exception("File upload failed.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("File upload failed.");
+                Console.WriteLine("File: {FileName} Error: {Error}",
+                file.Name, ex.Message);
             }
+        }
+    }
+
+    private async void Submit()
+    {
+        if (submission is null) throw new Exception("Error in loading page");
+
+        submission.SubmitterName = firstName + "," + lastName;
+        submission.Notes = "Dimensions:" + dimensions + '\n';
+
+        Console.WriteLine(submission.ToString());
+        HttpResponseMessage response = await Http.PutAsJsonAsync("api/pending", submission);
+
+        if (response.IsSuccessStatusCode)
+        {
+            submission = new();
         }
     }
 }

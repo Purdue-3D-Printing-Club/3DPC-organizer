@@ -9,6 +9,7 @@ namespace Organizer.Shared.Views
         public string SubmitterName { get; set; }
         public string SubmitterEmail { get; set; }
         public string SupervisorName { get; set; }
+        public JobType jobType { get; set; }
         public string[] Files { get; set; }
         public string? Notes { get; set; }
 
@@ -18,7 +19,8 @@ namespace Organizer.Shared.Views
             SubmitterName = "";
             SubmitterEmail = "";
             SupervisorName = "";
-            Files = Array.Empty<string>();
+            jobType = JobType.FDM;
+            Files = [];
             Notes = null;
         }
 
@@ -27,6 +29,7 @@ namespace Organizer.Shared.Views
             string SubmitterName,
             string SubmitterEmail,
             string SupervisorName,
+            JobType jobType,
             string[] Files,
             string? Notes
         )
@@ -35,6 +38,7 @@ namespace Organizer.Shared.Views
             this.SubmitterName = SubmitterName;
             this.SubmitterEmail = SubmitterEmail;
             this.SupervisorName = SupervisorName;
+            this.jobType = jobType;
             this.Files = Files;
             this.Notes = Notes;
         }
@@ -45,6 +49,7 @@ namespace Organizer.Shared.Views
             SubmitterName = job.SubmitterName;
             SubmitterEmail = job.SubmitterEmail;
             SupervisorName = job.SupervisorName;
+            jobType = JobType.FDM;
             Files = job.Files;
             Notes = job.Notes;
         }
