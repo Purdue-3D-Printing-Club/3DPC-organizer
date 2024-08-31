@@ -44,22 +44,27 @@
     [Parameter]
     public List<Printer>? availablePrinters { get; set; }
     private string selectedPrinterName = "None";
-    private bool assigned;
+    private bool assigned = false;
 
     public async void AssignJob()
     {
         if (availablePrinters is null) return;
                 
         Guid printerId;
+        HttpResponseMessage? response = null;
         foreach (Printer p in availablePrinters)
         {
             if (p.Name == selectedPrinterName)
             {
                 printerId = p.Id;
-                HttpResponseMessage response = await Http.PatchAsJsonAsync("api/pending/" + printerId.ToString(), submission);
-                assigned = true;
+                response = await Http.PatchAsJsonAsync("api/pending/" + printerId.ToString(), submission);
                 break;
             }
+        }
+
+        if (!(response is null)  && response.IsSuccessStatusCode)
+        {
+            assigned = true;
         }
     }
 

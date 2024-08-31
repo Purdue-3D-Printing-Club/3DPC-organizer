@@ -1,4 +1,5 @@
 @using Organizer.Shared.Views
+@inject HttpClient Http
 
 <div class="printer-panel" @onclick="() => expand()">
     @if (printer == null)
@@ -13,8 +14,8 @@
                 <h3>@printer.PrinterType "@printer.Name"</h3>
             </div>
             <div class="expanded-col">
-                <p>@printer.Status</p>
-                @if (printer.AssignedJob != null)
+        <p>@printer.Status</p>
+        @if (printer.AssignedJob != null)
                 {
                     <p>@printer.AssignedJob.SubmitterName</p>
                     <p>@printer.AssignedJob.SubmitterEmail</p>
@@ -22,6 +23,10 @@
                     <p>@printer.AssignedJob.Status</p>
                     <p>@printer.AssignedJob.Files</p>
                 }
+            </div>
+            <div class="expanded-col">
+                <button @onclick="FinishJob">Complete</button>
+                <button @onclick="FailJob">Fail</button>
             </div>
         }
         else
@@ -43,10 +48,57 @@
 @code {
     [Parameter]
     public PrinterDetail? printer { get; set; }
-    public bool expanded { get; set; } = false;
+    private bool expanded { get; set; } = false;
+    private string failMessage = "";
 
-    public void expand()
+    private void expand()
     {
         expanded = !expanded;
+    }
+
+    private async void FinishJob()
+    {
+        if (printer is null || printer.AssignedJob is null)
+            return;
+
+        HttpResponseMessage response = await Http.PatchAsJsonAsync(
+            "api/job/finish/" + printer.AssignedJob.Id.ToString(),
+            printer.AssignedJob);
+
+        if (response.IsSuccessStatusCode)
+            ReloadPrinter();
+    }
+
+    private async void FailJob()
+    {
+        if (printer is null || printer.AssignedJob is null)
+            return;
+
+        HttpResponseMessage response = await Http.PatchAsJsonAsync(
+            "api/job/fail/" + printer.AssignedJob.Id.ToString(),
+            failMessage);
+        
+        if (response.IsSuccessStatusCode)
+            ReloadPrinter();
+    }
+
+    private async void ReloadPrinter()
+    {
+        if (printer is null)
+            return;
+
+        PrinterDetail[]? printers = await Http.GetFromJsonAsync<PrinterDetail[]>("api/Printer");
+        if (printers != null)
+        {
+            foreach (PrinterDetail p in printers)
+            {
+                if (p.Id == printer.Id)
+                {
+                    printer = p;
+                    expand();
+                    return;
+                }
+            }
+        }
     }
 }

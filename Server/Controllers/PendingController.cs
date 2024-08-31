@@ -33,7 +33,7 @@ public class PendingController(ILogger<PendingController> logger, OrgContext con
     }
 
     [HttpPatch("{printerId}")]
-    public IActionResult UpdateJob(Guid printerId, [FromBody] Job job)
+    public IActionResult AssignJob(Guid printerId, [FromBody] Job job)
     {
         _logger.LogInformation("printerId: {}", printerId);
         _logger.LogInformation("jogId: {}", job.Id);
@@ -52,8 +52,9 @@ public class PendingController(ILogger<PendingController> logger, OrgContext con
         existingJob.StartedTime = job.StartedTime;
         existingJob.Notes = job.Notes;
         existingJob.EstimatedFilament = job.EstimatedFilament;
-
         existingJob.Status = JobState.InProgress;
+        existingJob.AssignedPrinterId = printer.Id;
+
         printer.AssignedJobId = existingJob.Id;
         printer.Status = PrinterState.Printing;
 
