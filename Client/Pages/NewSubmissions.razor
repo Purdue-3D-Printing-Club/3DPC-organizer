@@ -9,6 +9,10 @@
 </div>
 
 <div class="page-content">
+    @if (submitSuccess)
+    {
+        <h1>Submission successful</h1>
+    }
     <EditForm Model="submission" OnSubmit="Submit" FormName="NewSubmissionForm">
         <div class="form-group">
             <label class="text-labels" for="first-name">First Name:</label>
@@ -74,6 +78,7 @@
     [SupplyParameterFromForm]
     private PendingJobSubmission? submission { get; set; }
 
+    private bool submitSuccess = false;
     private string? firstName;
     private string? lastName;
     private JobType jobType;
@@ -129,8 +134,8 @@
         if (firstName is null || firstName == "" || lastName is null || lastName == "") return;
         // TODO: add form validation
 
-        submission.SubmitterName = firstName + "," + lastName;
-        submission.Notes = "Dimensions:" + dimensions + '\n';
+        submission.SubmitterName = firstName + " " + lastName;  
+        submission.Notes = dimensions + "; " + submission.Notes;
 
         Console.WriteLine(submission.ToString());
         HttpResponseMessage response = await Http.PutAsJsonAsync("api/pending", submission);
@@ -138,6 +143,10 @@
         if (response.IsSuccessStatusCode)
         {
             submission = new();
+            firstName = "";
+            lastName = "";
+            dimensions = "";
+            submitSuccess = true;
         }
     }
 }

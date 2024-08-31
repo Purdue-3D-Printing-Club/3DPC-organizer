@@ -32,15 +32,17 @@ public class PendingController(ILogger<PendingController> logger, OrgContext con
         return Ok();
     }
 
-    [HttpPatch("{id}")]
-    public IActionResult UpdateJob(Guid id, [FromBody] Job job)
+    [HttpPatch("{printerId}")]
+    public IActionResult UpdateJob(Guid printerId, [FromBody] Job job)
     {
+        _logger.LogInformation("printerId: {}", printerId);
+        _logger.LogInformation("jogId: {}", job.Id);
         Job? existingJob = _context.Jobs.Find(job.Id);
         if (existingJob == null)
         {
             return NotFound("Job not found");
         }
-        Printer? printer = _context.Printers.Find(id);
+        Printer? printer = _context.Printers.Find(printerId);
         if (printer == null)
         {
             return NotFound("Printer not found");

@@ -1,0 +1,29 @@
+.pending-submission {
+    margin: .75rem 0;
+    padding: .5rem;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: whitesmoke;
+    color: black;
+    border-radius: .2rem;
+}
+
+.pending-submission>* {
+    margin: .5rem;
+}
+
+.submitter {
+    font-size: 1.25rem;
+}
+
+.notes {
+    font-size: 1.25rem;
+}
+
+.printer-select {
+    height: auto;
+    margin: .5rem;
+}

@@ -1,4 +1,6 @@
 @page "/submissions"
+@using Organizer.Client.Components
+@using Organizer.Shared.Views
 @using Organizer.Shared.Models
 @inject HttpClient Http
 
@@ -16,22 +18,21 @@
     }
     else
     {
-        @foreach (var submission in submissions)
+        @foreach (var job in submissions)
         {
-            <div>
-                <span>@submission.Notes</span>
-                <span>@submission.Id</span>
-            </div>
+            <PendingSubmissionCard submission=@job availablePrinters=@availablePrinters/>
         }
     }
 </div>
 
 
 @code {
-    private List<Job> submissions;
+    private List<PendingJobSubmission>? submissions;
+    private List<Printer>? availablePrinters;
 
     protected override async Task OnInitializedAsync()
     {
-        submissions = await Http.GetFromJsonAsync<List<Job>>("api/pending");
+        submissions = await Http.GetFromJsonAsync<List<PendingJobSubmission>>("api/pending");
+        availablePrinters = await Http.GetFromJsonAsync<List<Printer>>("api/printer/available");
     }
 }
