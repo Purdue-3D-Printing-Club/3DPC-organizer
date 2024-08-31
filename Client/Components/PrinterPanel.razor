@@ -1,7 +1,7 @@
 @using Organizer.Shared.Views
 @inject HttpClient Http
 
-<div class="printer-panel" @onclick="() => expand()">
+<div class="printer-panel">
     @if (printer == null)
     {
         <p>Loading...</p>
@@ -10,6 +10,7 @@
     {
         @if (expanded)
         {
+        <button @onclick="expand">Collapse</button>
             <div class="expanded-col">
                 <h3>@printer.PrinterType "@printer.Name"</h3>
             </div>
@@ -27,10 +28,13 @@
             <div class="expanded-col">
                 <button @onclick="FinishJob">Complete</button>
                 <button @onclick="FailJob">Fail</button>
+                <InputTextArea @bind-Value="failMessage" placeholder="Failure Notes" />
             </div>
         }
         else
         {
+                    <button @onclick="expand">Expand</button>
+
             <span>@printer.Name</span>
             @if (printer.AssignedJob != null)
             {
