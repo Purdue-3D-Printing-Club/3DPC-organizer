@@ -81,4 +81,53 @@ public class JobController(ILogger<JobController> logger, OrgContext orgContext)
 
         return Ok();
     }
+
+    [HttpPatch("finish/{jobId}")]
+    public IActionResult FinishJob(Guid jobId)
+    {
+        Job? job = _context.Jobs.Find(jobId);
+        if (job == null)
+            return NotFound("Job not found");
+
+        Printer? printer = _context.Printers.Find(job.AssignedPrinterId);
+        if (printer == null)
+            return Problem();
+
+        printer.AssignedJobId = null;
+        printer.Status = PrinterState.Idle;
+
+        job.AssignedPrinterId = null;
+        job.Status = JobState.Completed;
+        job.CompletedTime = DateTime.UtcNow;
+
+        _context.SaveChanges();
+        return Ok();
+    }
+
+    [HttpPatch("fail/{jobId}")]
+    public IActionResult FailJob(Guid jobId, [FromBody] string message)
+    {
+        Job? job = _context.Jobs.Find(jobId);
+        if (job == null)
+            return NotFound("Job not found");
+
+        if (++job.FailureCount >= 3)
+        {
+            Printer? printer = _context.Printers.Find(job.AssignedPrinterId);
+            if (printer == null)
+                return Problem();
+
+            printer.AssignedJobId = null;
+            printer.Status = PrinterState.Idle;
+
+            job.AssignedPrinterId = null;
+            job.Status = JobState.Failed;
+            job.CompletedTime = DateTime.UtcNow;
+        }
+        job.FailureNotes ??= [];
+        job.FailureNotes.Append(String.Format("|Failure #{0}: {1}\n", job.FailureCount, message));
+
+        _context.SaveChanges();
+        return Ok();
+    }
 }

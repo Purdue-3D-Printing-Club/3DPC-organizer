@@ -1,0 +1,38 @@
+@page "/submissions"
+@using Organizer.Client.Components
+@using Organizer.Shared.Views
+@using Organizer.Shared.Models
+@inject HttpClient Http
+
+<div class="page-header">
+    <h1>Pending Submissions</h1>
+</div>
+
+<div class="page-content">
+    <a href="/new-submission">
+        <button>New Submission</button>
+    </a>
+    @if (submissions is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        @foreach (var job in submissions)
+        {
+            <PendingSubmissionCard submission=@job availablePrinters=@availablePrinters/>
+        }
+    }
+</div>
+
+
+@code {
+    private List<PendingJobSubmission>? submissions;
+    private List<Printer>? availablePrinters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        submissions = await Http.GetFromJsonAsync<List<PendingJobSubmission>>("api/pending");
+        availablePrinters = await Http.GetFromJsonAsync<List<Printer>>("api/printer/available");
+    }
+}

@@ -1,0 +1,71 @@
+@using Organizer.Shared.Views
+@using Organizer.Shared.Models
+@inject HttpClient Http
+
+@if (!assigned)
+{
+
+    <div class="pending-submission">
+    @if (submission is null || availablePrinters is null)
+        {
+            <div class="loading">
+                Loading submission
+            </div>
+        }
+        else
+        {
+            <div class="submitter">
+                @submission.SubmitterName
+            </div>
+            <div class="notes">
+                @submission.Notes
+            </div>
+            <div>
+            @if (selectedPrinterName != "None")
+            {
+                <button @onclick="AssignJob">Assign</button>
+            }
+            <InputSelect @bind-Value="selectedPrinterName" class="printer-select">
+                <option>None</option>
+                @foreach (var value in availablePrinters)
+                {
+                    <option>@value.Name</option>
+                }
+            </InputSelect>
+            </div>
+        }
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public PendingJobSubmission? submission { get; set; }    
+    [Parameter]
+    public List<Printer>? availablePrinters { get; set; }
+    private string selectedPrinterName = "None";
+    private bool assigned = false;
+
+    public async void AssignJob()
+    {
+        if (availablePrinters is null) return;
+                
+        Guid printerId;
+        HttpResponseMessage? response = null;
+        foreach (Printer p in availablePrinters)
+        {
+            if (p.Name == selectedPrinterName)
+            {
+                printerId = p.Id;
+                response = await Http.PatchAsJsonAsync("api/pending/" + printerId.ToString(), submission);
+                break;
+            }
+        }
+
+        if (!(response is null)  && response.IsSuccessStatusCode)
+        {
+            assigned = true;
+        }
+    }
+
+}

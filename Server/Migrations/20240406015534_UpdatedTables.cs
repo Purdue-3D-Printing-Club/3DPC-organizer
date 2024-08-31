@@ -14,77 +14,76 @@ namespace Organizer.Server.Migrations
             migrationBuilder.RenameColumn(
                 name: "UserSubmitting",
                 table: "Jobs",
-                newName: "SupervisorName");
+                newName: "SupervisorName"
+            );
 
             migrationBuilder.RenameColumn(
                 name: "Supervisor",
                 table: "Jobs",
-                newName: "SubmitterName");
+                newName: "SubmitterName"
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CompletedTime",
                 table: "Jobs",
                 type: "TEXT",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "FailureNotes",
                 table: "Jobs",
                 type: "TEXT",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "StartedTime",
                 table: "Jobs",
                 type: "TEXT",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "SubmittedTime",
                 table: "Jobs",
                 type: "TEXT",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "SubmitterEmail",
                 table: "Jobs",
                 type: "TEXT",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CompletedTime",
-                table: "Jobs");
+            migrationBuilder.DropColumn(name: "CompletedTime", table: "Jobs");
 
-            migrationBuilder.DropColumn(
-                name: "FailureNotes",
-                table: "Jobs");
+            migrationBuilder.DropColumn(name: "FailureNotes", table: "Jobs");
 
-            migrationBuilder.DropColumn(
-                name: "StartedTime",
-                table: "Jobs");
+            migrationBuilder.DropColumn(name: "StartedTime", table: "Jobs");
 
-            migrationBuilder.DropColumn(
-                name: "SubmittedTime",
-                table: "Jobs");
+            migrationBuilder.DropColumn(name: "SubmittedTime", table: "Jobs");
 
-            migrationBuilder.DropColumn(
-                name: "SubmitterEmail",
-                table: "Jobs");
+            migrationBuilder.DropColumn(name: "SubmitterEmail", table: "Jobs");
 
             migrationBuilder.RenameColumn(
                 name: "SupervisorName",
                 table: "Jobs",
-                newName: "UserSubmitting");
+                newName: "UserSubmitting"
+            );
 
             migrationBuilder.RenameColumn(
                 name: "SubmitterName",
                 table: "Jobs",
-                newName: "Supervisor");
+                newName: "Supervisor"
+            );
         }
     }
 }

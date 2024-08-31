@@ -445,3 +445,4 @@ $RECYCLE.BIN/
 
 # Database
 Server/Database/db/*
+Server/Database/*.db

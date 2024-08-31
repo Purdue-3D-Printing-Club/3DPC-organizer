@@ -9,14 +9,16 @@ namespace Organizer.Shared.Models
         public string SubmitterName { get; set; }
         public string SubmitterEmail { get; set; }
         public string SupervisorName { get; set; }
+        public JobState Status { get; set; }
+        public string[] Files { get; set; }
         public DateTime? SubmittedTime { get; set; }
         public DateTime? StartedTime { get; set; }
         public DateTime? CompletedTime { get; set; }
-        public JobState Status { get; set; }
-        public string[] Files { get; set; }
         public string? Notes { get; set; }
         public double? EstimatedFilament { get; set; }
         public string[]? FailureNotes { get; set; }
+        public Guid? AssignedPrinterId { get; set; }
+        public int FailureCount { get; set; } = 0;
 
         public Job()
         {
