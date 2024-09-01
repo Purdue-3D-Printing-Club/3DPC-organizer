@@ -10,6 +10,7 @@ On the server pc, open a terminal and enter the following:
 ```bash
 cd
 cd 3DPC-organizer/
+git pull
 ./Scripts/setup_volume.sh
 ./build_and_start.sh
 ```
