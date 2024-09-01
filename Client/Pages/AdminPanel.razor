@@ -1,21 +1,48 @@
 @page "/admin"
+@using Organizer.Client.Components
 @using Organizer.Shared.Views
 @inject HttpClient Http
 
 <PageTitle>Admin Panel</PageTitle>
 <h1 class="page-header">Admin Panel</h1>
 
-<form onsubmit="event.preventDefault(); CreatePrinter()">
-    <input type="text" placeholder="Printer Name" @bind="newPrinter.Name" />
-    <input type="text" placeholder="Printer Type" @bind="newPrinter.PrinterType" />
-    <button type="submit" @onclick="CreatePrinter">Create Printer</button>
-</form>
+<div class="add-printer">
+    <form onsubmit="event.preventDefault(); CreatePrinter()">
+        <input type="text" placeholder="Printer Name" @bind="newPrinter.Name" />
+        <input type="text" placeholder="Printer Type" @bind="newPrinter.PrinterType" />
+        <button type="submit" @onclick="CreatePrinter">Create Printer</button>
+    </form>
+</div>
+<div class="edit-printers">
+    @if (printerList is null)
+    {
+        <p>Loading Printers...</p>
+    }
+    else
+    {
+        @foreach (PrinterDetail printer in printerList)
+        {
+            <AdminPrinter printer="@printer"/>
+        }
+    }
+</div>
 
 @code {
     private NewPrinter newPrinter = new NewPrinter();
+    private PrinterDetail[]? printerList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        printerList = await Http.GetFromJsonAsync<PrinterDetail[]>("api/printer");
+        if (printerList is null)
+        {
+            printerList = new PrinterDetail[0];
+        }
+    }
+
     private async Task CreatePrinter()
     {
-        var response = await Http.PutAsJsonAsync("api/Printer", newPrinter);
+        var response = await Http.PutAsJsonAsync("api/printer", newPrinter);
         if (response.IsSuccessStatusCode)
         {
             Console.WriteLine("Printer created successfully");

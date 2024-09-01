@@ -1,0 +1,32 @@
+@using Organizer.Shared.Enums
+@using Organizer.Shared.Views
+@inject HttpClient Http
+
+<div class="admin-printer-panel">
+    @if (printer == null)
+    {
+        <p>Loading Printer...</p>
+    }
+    else
+    {
+        <span>@printer.PrinterType "@printer.Name"  </span>
+        <InputSelect @bind-Value="printer.Status">
+        @foreach (var value in Enum.GetValues(typeof(PrinterState)))
+        {
+            <option>@value</option>
+        }
+        </InputSelect>
+        <button @onclick="ApplyChange">Apply Changes</button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public PrinterDetail? printer { get; set; }
+
+    private async void ApplyChange()
+    {
+        HttpResponseMessage response = await Http.PatchAsJsonAsync("api/printer", printer);
+
+    }
+}

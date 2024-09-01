@@ -1,16 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
+using Organizer.Server.Database;
+using Organizer.Shared.Enums;
 using Organizer.Shared.Models;
 
 namespace Organizer.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AdminController : ControllerBase
+public class AdminController(ILogger<AdminController> logger, OrgContext orgContext)
+    : ControllerBase
 {
-    private readonly ILogger<AdminController> _logger;
+    private readonly ILogger<AdminController> _logger = logger;
+    private readonly OrgContext _context = orgContext;
 
-    public AdminController(ILogger<AdminController> logger)
+    [HttpPatch("{printerId}")]
+    public IActionResult PrinterState(Guid printerId, [FromBody] PrinterState state)
     {
-        _logger = logger;
+        Printer? printer = _context.Printers.Find(printerId);
+        if (printer == null)
+            return Problem();
+
+        printer.Status = state;
+        _context.SaveChanges();
+
+        return Ok();
     }
 }
