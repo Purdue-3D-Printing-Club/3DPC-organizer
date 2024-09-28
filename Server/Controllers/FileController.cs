@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Organizer.Server.Database;
 
 namespace Organizer.Server.Controllers;
 
@@ -19,6 +18,7 @@ public class FileController(ILogger<JobController> logger, IConfiguration config
             return BadRequest("No filepath provided");
 
         string filePath = Path.ChangeExtension(Path.Combine(_folderPath, filename), ".stl");
+
         var memory = new MemoryStream();
         using (var stream = new FileStream(filePath, FileMode.Open))
         {
@@ -34,9 +34,9 @@ public class FileController(ILogger<JobController> logger, IConfiguration config
     {
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded.");
-        _logger.LogInformation("File: {0} | {1}", file.FileName, file.Length);
 
-        string filePath = Path.Combine(_folderPath, file.FileName);
+        Random rnd = new();
+        string filePath = Path.Combine(_folderPath, rnd.Next() + file.FileName);
         if (!Directory.Exists(_folderPath))
             Directory.CreateDirectory(_folderPath);
 
