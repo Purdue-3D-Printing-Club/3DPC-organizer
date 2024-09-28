@@ -446,3 +446,6 @@ $RECYCLE.BIN/
 # Database
 Server/Database/db/*
 Server/Database/*.db
+
+# Dev file uploads
+Server/Files/*

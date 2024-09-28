@@ -110,7 +110,7 @@
                 if (response.IsSuccessStatusCode)
                 {
                     JsonNode responseContent = JsonNode.Parse(response.Content.ReadAsStream())!;
-                    string tmpFilepath = responseContent!["filePath"]?.ToString() ?? "";
+                    string tmpFilepath = responseContent!["fileName"]?.ToString() ?? "";
                     filePaths.Add(tmpFilepath);
                     Console.WriteLine(tmpFilepath);
                 }
@@ -143,7 +143,7 @@
             submission.Files = filePaths.ToArray();
             Console.WriteLine(f);
         }
-        
+
         HttpResponseMessage response = await Http.PutAsJsonAsync("api/pending", submission);
 
         if (response.IsSuccessStatusCode)
