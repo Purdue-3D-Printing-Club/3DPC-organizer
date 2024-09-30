@@ -110,8 +110,8 @@
                 if (response.IsSuccessStatusCode)
                 {
                     JsonNode responseContent = JsonNode.Parse(response.Content.ReadAsStream())!;
-                    string tmpFilepath = responseContent!["filePath"]?.ToString() ?? "";
-                    submission.Files.Append(tmpFilepath);
+                    string tmpFilepath = responseContent!["fileName"]?.ToString() ?? "";
+                    filePaths.Add(tmpFilepath);
                     Console.WriteLine(tmpFilepath);
                 }
                 else
@@ -137,12 +137,19 @@
         submission.SubmitterName = firstName + " " + lastName;  
         submission.Notes = dimensions + "; " + submission.Notes;
 
-        Console.WriteLine(submission.ToString());
+        Console.WriteLine(filePaths.Count());
+        foreach (var f in filePaths)
+        {
+            submission.Files = filePaths.ToArray();
+            Console.WriteLine(f);
+        }
+
         HttpResponseMessage response = await Http.PutAsJsonAsync("api/pending", submission);
 
         if (response.IsSuccessStatusCode)
         {
             submission = new();
+            filePaths = new();
             firstName = "";
             lastName = "";
             dimensions = "";

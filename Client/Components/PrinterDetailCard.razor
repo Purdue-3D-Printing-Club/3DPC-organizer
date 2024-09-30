@@ -10,19 +10,22 @@
     {
         @if (expanded)
         {
-        <button @onclick="expand">Collapse</button>
+            <button @onclick="expand">Collapse</button>
             <div class="expanded-col">
                 <h3>@printer.PrinterType "@printer.Name"</h3>
             </div>
             <div class="expanded-col">
-        <p>@printer.Status</p>
-        @if (printer.AssignedJob != null)
+                <p>@printer.Status</p>
+                @if (printer.AssignedJob != null)
                 {
                     <p>@printer.AssignedJob.SubmitterName</p>
                     <p>@printer.AssignedJob.SubmitterEmail</p>
                     <p>@printer.AssignedJob.SupervisorName</p>
                     <p>@printer.AssignedJob.Status</p>
-                    <p>@printer.AssignedJob.Files</p>
+                    @foreach (string file in printer.AssignedJob.Files)
+                    {
+                        <a id="" class="btn" href="/api/file/@file">Download @file</a>
+                    }
                 }
             </div>
             <div class="expanded-col">
@@ -33,7 +36,7 @@
         }
         else
         {
-                    <button @onclick="expand">Expand</button>
+            <button @onclick="expand">Expand</button>
 
             <span>@printer.Name</span>
             @if (printer.AssignedJob != null)

@@ -92,7 +92,7 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
     }
 
     [HttpPatch]
-    public IActionResult UpdatePrinter([FromBody] Printer printer)
+    public IActionResult UpdatePrinter([FromBody] PrinterDetail printer)
     {
         // Validate the request body
         if (printer == null)
@@ -103,7 +103,7 @@ public class PrinterController(ILogger<PrinterController> logger, OrgContext org
         Printer? existingPrinter = _context.Printers.Find(printer.Id);
         if (existingPrinter == null)
         {
-            return NotFound("Printer not found");
+            return Problem("Printer not found");
         }
         // Update the printer in the database
         existingPrinter.Name = printer.Name;
